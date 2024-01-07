@@ -98,13 +98,21 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
+		if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1) == GPIO_PIN_RESET) {
+			HAL_GPIO_WritePin(GPIOA,LEDY_Pin,GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOA,LEDG_Pin,GPIO_PIN_SET);
+			bee(100);
+		}
+	else if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1) == GPIO_PIN_SET) {
+			HAL_GPIO_WritePin(GPIOA,LEDG_Pin,GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOA,LEDY_Pin,GPIO_PIN_SET);
+			bee(100);
+	}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_0,GPIO_PIN_SET);
-		HAL_Delay(99);
-		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_RESET);
-		HAL_Delay(99);
+
+
 	}
   /* USER CODE END 3 */
 }

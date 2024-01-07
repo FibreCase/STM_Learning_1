@@ -31,7 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "BEE.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -57,14 +57,14 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define LED1_Pin GPIO_PIN_0
-#define LED1_GPIO_Port GPIOB
-#define LED2_Pin GPIO_PIN_1
-#define LED2_GPIO_Port GPIOB
-#define LED3_Pin GPIO_PIN_2
-#define LED3_GPIO_Port GPIOB
-#define BT1_Pin GPIO_PIN_10
-#define BT1_GPIO_Port GPIOB
+#define LEDR_Pin GPIO_PIN_4
+#define LEDR_GPIO_Port GPIOA
+#define LEDY_Pin GPIO_PIN_5
+#define LEDY_GPIO_Port GPIOA
+#define LEDG_Pin GPIO_PIN_6
+#define LEDG_GPIO_Port GPIOA
+#define BEE_Pin GPIO_PIN_7
+#define BEE_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 
