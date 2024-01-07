@@ -46,7 +46,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+static char ldt_status = 0;
+static char ldt_status_old = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -67,7 +68,14 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	char staring_red_status = 1;
+	if (HAL_GPIO_ReadPin(GPIOA, LDT_Pin) == GPIO_PIN_SET) {
+		ldt_status_old = 1;
+		HAL_GPIO_WritePin(GPIOA, LEDG_Pin, GPIO_PIN_SET);
+	} else {
+		ldt_status_old = 0;
+		HAL_GPIO_WritePin(GPIOA, LEDY_Pin, GPIO_PIN_SET);
+	}
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -92,26 +100,46 @@ int main(void)
   MX_I2C1_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  OLED_Init();
+  OLED_SetBlack();
+  uint8_t OLED_GRAM[8][128] = {0};
+  for (int i = 0; i < 8; ++i) {
+	  for (int j = 0; j < 128; ++j) {
+		  OLED_SetPixel(j, i, 1, OLED_GRAM);
+		  OLED_ShowFrame(OLED_GRAM);
+		  HAL_Delay(10);
+	  }
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
-		if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1) == GPIO_PIN_RESET) {
-			HAL_GPIO_WritePin(GPIOA,LEDY_Pin,GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOA,LEDG_Pin,GPIO_PIN_SET);
-			bee(100);
+		staring_red(staring_red_status);
+
+		if (HAL_GPIO_ReadPin(GPIOA, LDT_Pin) == GPIO_PIN_SET) {
+			ldt_status = 1;
+		} else {
+			ldt_status = 0;
 		}
-	else if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1) == GPIO_PIN_SET) {
-			HAL_GPIO_WritePin(GPIOA,LEDG_Pin,GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOA,LEDY_Pin,GPIO_PIN_SET);
-			bee(100);
-	}
+
+		if (ldt_status != ldt_status_old) {
+			if (ldt_status == 1) {
+				HAL_GPIO_WritePin(GPIOA, LEDG_Pin, GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(GPIOA, LEDY_Pin, GPIO_PIN_SET);
+				bee(100);
+				ldt_status_old = ldt_status;
+			}
+			else if (ldt_status == 0) {
+				HAL_GPIO_WritePin(GPIOA, LEDY_Pin, GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(GPIOA, LEDG_Pin, GPIO_PIN_SET);
+				bee(100);
+				ldt_status_old = ldt_status;
+			}
+		}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
 
 	}
   /* USER CODE END 3 */
@@ -157,6 +185,20 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void bee(int time) {
+	HAL_GPIO_WritePin(GPIOA, BEE_Pin, GPIO_PIN_RESET);
+	HAL_Delay(time);
+	HAL_GPIO_WritePin(GPIOA, BEE_Pin, GPIO_PIN_SET);
+}
+
+void staring_red(int status) {
+	if (status == 1) {
+		HAL_GPIO_WritePin(GPIOA, LEDR_Pin, GPIO_PIN_SET);
+		HAL_Delay(500);
+		HAL_GPIO_WritePin(GPIOA, LEDR_Pin, GPIO_PIN_RESET);
+		HAL_Delay(500);
+	}
+}
 
 /* USER CODE END 4 */
 

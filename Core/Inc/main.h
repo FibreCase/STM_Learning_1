@@ -31,7 +31,8 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "BEE.h"
+#include "oled.h"
+
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -53,10 +54,14 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+void bee(int time);
+void staring_red(int status);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define LDT_Pin GPIO_PIN_1
+#define LDT_GPIO_Port GPIOA
+#define LDT_EXTI_IRQn EXTI1_IRQn
 #define LEDR_Pin GPIO_PIN_4
 #define LEDR_GPIO_Port GPIOA
 #define LEDY_Pin GPIO_PIN_5
@@ -65,6 +70,8 @@ void Error_Handler(void);
 #define LEDG_GPIO_Port GPIOA
 #define BEE_Pin GPIO_PIN_7
 #define BEE_GPIO_Port GPIOA
+#define SWT_Pin GPIO_PIN_15
+#define SWT_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 
